@@ -204,6 +204,8 @@ class AddPoissonNoise:
                 [np.maximum(ndimage.variance(_noise), self.tol) for _noise in noise_np]
             )
             fact = np.sqrt(sig_var / noise_var / (10 ** (self.snr / 10)))
+            signification_factor = min(1, 50 / measurement.max())   # 
+            fact = fact * 50 / signification_factor
             fact = np.array(fact)[:, np.newaxis, np.newaxis, np.newaxis]
             fact = torch.tensor(fact).to(measurement)
 
